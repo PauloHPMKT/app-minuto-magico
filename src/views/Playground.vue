@@ -75,9 +75,9 @@ function teste() {
                   <span class="text-[20px] font-semibold">08:36</span>
                 </div>
                 <!-- <button class="bg-blue-500 text-white px-4 py-2 rounded-md">Iniciar</button> -->
-                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                <MainButton class="bg-blue-950 w-fit text-white">
                   Encerrar
-                </button>
+                </MainButton>
               </div>
             </div>
           </li>
@@ -93,15 +93,15 @@ function teste() {
             </div> -->
               </div>
               <div class="w-[50%] flex gap-2 justify-end">
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                <MainButton class="w-fit bg-blue-500 text-white">
                   <div class="flex items-center">
                     <Icon icon="tabler:stopwatch" width="24" height="24" />
                     +
                   </div>
-                </button>
-                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                </MainButton>
+                <MainButton class="bg-blue-950 w-fit text-white">
                   Encerrar
-                </button>
+                </MainButton>
               </div>
             </div>
           </li>
@@ -117,15 +117,15 @@ function teste() {
             </div> -->
               </div>
               <div class="w-[50%] flex gap-2 justify-end">
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                <MainButton class="w-fit bg-blue-500 text-white">
                   <div class="flex items-center">
                     <Icon icon="tabler:stopwatch" width="24" height="24" />
                     +
                   </div>
-                </button>
-                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                </MainButton>
+                <MainButton class="bg-blue-950 w-fit text-white">
                   Encerrar
-                </button>
+                </MainButton>
               </div>
             </div>
           </li>
@@ -146,9 +146,9 @@ function teste() {
                   <span class="text-[20px] font-semibold">10:00</span>
                 </div>
                 <!-- <button class="bg-blue-500 text-white px-4 py-2 rounded-md">Iniciar</button> -->
-                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                <MainButton class="bg-blue-950 w-fit text-white">
                   Encerrar
-                </button>
+                </MainButton>
               </div>
             </div>
           </li>
@@ -164,15 +164,15 @@ function teste() {
             </div> -->
               </div>
               <div class="w-[50%] flex gap-2 justify-end">
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                <MainButton class="w-fit bg-blue-500 text-white">
                   <div class="flex items-center">
                     <Icon icon="tabler:stopwatch" width="24" height="24" />
                     +
                   </div>
-                </button>
-                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                </MainButton>
+                <MainButton class="bg-blue-950 w-fit text-white">
                   Encerrar
-                </button>
+                </MainButton>
               </div>
             </div>
           </li>
@@ -188,15 +188,15 @@ function teste() {
             </div> -->
               </div>
               <div class="w-[50%] flex gap-2 justify-end">
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                <MainButton class="w-fit bg-blue-500 text-white">
                   <div class="flex items-center">
                     <Icon icon="tabler:stopwatch" width="24" height="24" />
                     +
                   </div>
-                </button>
-                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                </MainButton>
+                <MainButton class="bg-blue-950 w-fit text-white">
                   Encerrar
-                </button>
+                </MainButton>
               </div>
             </div>
           </li>
@@ -212,15 +212,15 @@ function teste() {
             </div> -->
               </div>
               <div class="w-[50%] flex gap-2 justify-end">
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                <MainButton class="w-fit bg-blue-500 text-white">
                   <div class="flex items-center">
                     <Icon icon="tabler:stopwatch" width="24" height="24" />
                     +
                   </div>
-                </button>
-                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                </MainButton>
+                <MainButton class="bg-blue-950 w-fit text-white">
                   Encerrar
-                </button>
+                </MainButton>
               </div>
             </div>
           </li>
@@ -236,15 +236,15 @@ function teste() {
             </div> -->
               </div>
               <div class="w-[50%] flex gap-2 justify-end">
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                <MainButton class="w-fit bg-blue-500 text-white">
                   <div class="flex items-center">
                     <Icon icon="tabler:stopwatch" width="24" height="24" />
                     +
                   </div>
-                </button>
-                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                </MainButton>
+                <MainButton class="bg-blue-950 w-fit text-white">
                   Encerrar
-                </button>
+                </MainButton>
               </div>
             </div>
           </li>
@@ -260,15 +260,15 @@ function teste() {
             </div> -->
               </div>
               <div class="w-[50%] flex gap-2 justify-end">
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                <MainButton class="w-fit bg-blue-500 text-white">
                   <div class="flex items-center">
                     <Icon icon="tabler:stopwatch" width="24" height="24" />
                     +
                   </div>
-                </button>
-                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                </MainButton>
+                <MainButton class="bg-blue-950 w-fit text-white">
                   Encerrar
-                </button>
+                </MainButton>
               </div>
             </div>
           </li>
