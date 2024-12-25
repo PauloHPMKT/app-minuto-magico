@@ -1,37 +1,279 @@
 <script setup lang="ts">
-import { Icon } from '@iconify/vue';
+import { Icon } from "@iconify/vue";
+import MainButton from '../components/MainButton/index.vue';
+
+function teste() {
+  alert('teste');
+}
 </script>
 
 <template>
-  <div class="max-w-md mx-auto my-4 bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl h-screen">
-    <div class="bg-gray-200 py-6 px-4">
-      <div class="mb-2 flex gap-2">
-        <input
-          type="text"
-          class="w-[70%] p-2 border border-gray-300 rounded-md"
-          placeholder="Insira o nome da crianca ou responsável"
-        />
-        <input
-          type="text"
-          class="w-[30%] p-2 border border-gray-300 rounded-md"
-          placeholder="Minutos, Ex... 10"
-        />
-      </div>
-      <div class="w-full mb-4">
-        <button class="bg-blue-500 w-full text-white px-4 py-2 rounded-md">Começar a brincadeira</button>
-      </div>
-      <div class="w-full flex items-start justify-start">
-        <div class="mt-2">
-          <Icon icon="tabler:alert-circle" class="text-blue-500" width="20" height="20" />
+  <div
+    class="max-w-md mx-auto mt-7 bg-white rounded-xl shadow-md md:max-w-2xl h-[85vh]"
+  >
+    <div class="h-full">
+      <div
+        class="bg-gray-200 py-6 px-4 overflow-hidden rounded-tl-xl rounded-tr-xl"
+      >
+        <div class="mb-2 flex gap-2">
+          <input
+            type="text"
+            class="w-[70%] p-2 border border-gray-300 rounded-md"
+            placeholder="Insira o nome da crianca ou responsável"
+          />
+          <input
+            type="text"
+            class="w-[30%] p-2 border border-gray-300 rounded-md"
+            placeholder="Minutos (10)"
+          />
         </div>
-        <div class="pl-2">
-          <small class="text-gray-500">* Insira o nome da criança ou responsável e a quantidade de mínutos para começar brincadeira</small><br>
-          <small class="text-gray-500">* A quantidade mínima de minutos permitido é 10 minutos</small>
+        <div class="w-full mb-4">
+          <MainButton
+            @click="teste"
+            class="bg-blue-500 text-white"
+          >
+            Começar a brincadeira
+          </MainButton>
+        </div>
+        <div class="w-full flex items-start justify-start">
+          <div class="mt-2">
+            <Icon
+              icon="tabler:alert-circle"
+              class="text-blue-500"
+              width="20"
+              height="20"
+            />
+          </div>
+          <div class="pl-2">
+            <p class="text-gray-500 text-sm"
+              >* Insira o nome da criança ou responsável e a quantidade de
+              mínutos para começar a brincadeira</p
+            >
+            <p class="text-gray-500 text-sm"
+              >* A quantidade mínima de minutos permitido é 10 minutos</p
+            >
+          </div>
         </div>
       </div>
-    </div>
-    <div class="py-6">
-      lista de menino pulando!!
+      <div>aqui ficarão algumas ações</div>
+      <div class="py-6 overflow-hidden h-[70%]">
+        <ul class="overflow-y-auto h-[93%]">
+          <li>
+            <div class="flex items-center border-b-[1px] py-2 px-6">
+              <div class="flex items-center gap-2 w-[70%]">
+                <div>
+                  <h3 class="text-lg font-semibold">Nome da criança</h3>
+                  <p class="text-gray-500">Tempo total: 10 minutos</p>
+                </div>
+              </div>
+              <div class="w-[30%] flex gap-2 justify-end">
+                <!--
+              aqui existirá uma logica que a principio mostrará o relogio do contador e após o
+              encerramento do tempo será mostrado o botão de ações
+            -->
+                <div class="flex items-center">
+                  <span class="text-[20px] font-semibold">08:36</span>
+                </div>
+                <!-- <button class="bg-blue-500 text-white px-4 py-2 rounded-md">Iniciar</button> -->
+                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                  Encerrar
+                </button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center border-b-[1px] py-2 px-6">
+              <div class="flex items-center gap-2 w-[50%]">
+                <div>
+                  <h3 class="text-lg font-semibold">Nome da criança</h3>
+                  <p class="text-gray-500">Tempo total: 10 minutos</p>
+                </div>
+                <!-- <div class="flex items-center">
+              <span class="text-[20px] font-semibold">05:43</span>
+            </div> -->
+              </div>
+              <div class="w-[50%] flex gap-2 justify-end">
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                  <div class="flex items-center">
+                    <Icon icon="tabler:stopwatch" width="24" height="24" />
+                    +
+                  </div>
+                </button>
+                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                  Encerrar
+                </button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center border-b-[1px] py-2 px-6">
+              <div class="flex items-center gap-2 w-[50%]">
+                <div>
+                  <h3 class="text-lg font-semibold">Nome da criança</h3>
+                  <p class="text-gray-500">Tempo total: 10 minutos</p>
+                </div>
+                <!-- <div class="flex items-center">
+              <span class="text-[20px] font-semibold">05:43</span>
+            </div> -->
+              </div>
+              <div class="w-[50%] flex gap-2 justify-end">
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                  <div class="flex items-center">
+                    <Icon icon="tabler:stopwatch" width="24" height="24" />
+                    +
+                  </div>
+                </button>
+                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                  Encerrar
+                </button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center border-b-[1px] py-2 px-6">
+              <div class="flex items-center gap-2 w-[70%]">
+                <div>
+                  <h3 class="text-lg font-semibold">Nome da criança</h3>
+                  <p class="text-gray-500">Tempo total: 10 minutos</p>
+                </div>
+              </div>
+              <div class="w-[30%] flex gap-2 justify-end">
+                <!--
+              aqui existirá uma logica que a principio mostrará o relogio do contador e após o
+              encerramento do tempo será mostrado o botão de ações
+            -->
+                <div class="flex items-center">
+                  <span class="text-[20px] font-semibold">10:00</span>
+                </div>
+                <!-- <button class="bg-blue-500 text-white px-4 py-2 rounded-md">Iniciar</button> -->
+                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                  Encerrar
+                </button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center border-b-[1px] py-2 px-6">
+              <div class="flex items-center gap-2 w-[50%]">
+                <div>
+                  <h3 class="text-lg font-semibold">Nome da criança</h3>
+                  <p class="text-gray-500">Tempo total: 10 minutos</p>
+                </div>
+                <!-- <div class="flex items-center">
+              <span class="text-[20px] font-semibold">05:43</span>
+            </div> -->
+              </div>
+              <div class="w-[50%] flex gap-2 justify-end">
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                  <div class="flex items-center">
+                    <Icon icon="tabler:stopwatch" width="24" height="24" />
+                    +
+                  </div>
+                </button>
+                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                  Encerrar
+                </button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center border-b-[1px] py-2 px-6">
+              <div class="flex items-center gap-2 w-[50%]">
+                <div>
+                  <h3 class="text-lg font-semibold">Nome da criança</h3>
+                  <p class="text-gray-500">Tempo total: 10 minutos</p>
+                </div>
+                <!-- <div class="flex items-center">
+              <span class="text-[20px] font-semibold">05:43</span>
+            </div> -->
+              </div>
+              <div class="w-[50%] flex gap-2 justify-end">
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                  <div class="flex items-center">
+                    <Icon icon="tabler:stopwatch" width="24" height="24" />
+                    +
+                  </div>
+                </button>
+                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                  Encerrar
+                </button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center border-b-[1px] py-2 px-6">
+              <div class="flex items-center gap-2 w-[50%]">
+                <div>
+                  <h3 class="text-lg font-semibold">Nome da criança</h3>
+                  <p class="text-gray-500">Tempo total: 10 minutos</p>
+                </div>
+                <!-- <div class="flex items-center">
+              <span class="text-[20px] font-semibold">05:43</span>
+            </div> -->
+              </div>
+              <div class="w-[50%] flex gap-2 justify-end">
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                  <div class="flex items-center">
+                    <Icon icon="tabler:stopwatch" width="24" height="24" />
+                    +
+                  </div>
+                </button>
+                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                  Encerrar
+                </button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center border-b-[1px] py-2 px-6">
+              <div class="flex items-center gap-2 w-[50%]">
+                <div>
+                  <h3 class="text-lg font-semibold">Nome da criança</h3>
+                  <p class="text-gray-500">Tempo total: 10 minutos</p>
+                </div>
+                <!-- <div class="flex items-center">
+              <span class="text-[20px] font-semibold">05:43</span>
+            </div> -->
+              </div>
+              <div class="w-[50%] flex gap-2 justify-end">
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                  <div class="flex items-center">
+                    <Icon icon="tabler:stopwatch" width="24" height="24" />
+                    +
+                  </div>
+                </button>
+                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                  Encerrar
+                </button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center border-b-[1px] py-2 px-6">
+              <div class="flex items-center gap-2 w-[50%]">
+                <div>
+                  <h3 class="text-lg font-semibold">Nome da criança</h3>
+                  <p class="text-gray-500">Tempo total: 10 minutos</p>
+                </div>
+                <!-- <div class="flex items-center">
+              <span class="text-[20px] font-semibold">05:43</span>
+            </div> -->
+              </div>
+              <div class="w-[50%] flex gap-2 justify-end">
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                  <div class="flex items-center">
+                    <Icon icon="tabler:stopwatch" width="24" height="24" />
+                    +
+                  </div>
+                </button>
+                <button class="bg-blue-950 text-white px-4 py-2 rounded-md">
+                  Encerrar
+                </button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
   <!-- <div class="max-w-md mx-auto my-4 bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl h-screen">
