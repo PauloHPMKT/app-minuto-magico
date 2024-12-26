@@ -68,7 +68,7 @@ async function addChild() {
   try {
     const res = await addChildService?.add({
       name: child.name,
-      totalMinutes: parseInt(child.totalMinutes),
+      totalMinutes: child.totalMinutes,
     });
 
     if (res) {

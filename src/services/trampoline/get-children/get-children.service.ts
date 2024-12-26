@@ -1,14 +1,12 @@
-import type { ApiConnection } from "../../http/api";
+import type { Child } from "../../../types/child";
+import type { GetChildrenFetchHttp } from "../../data/protocols/get-children-fetch-http";
 import type { GetChildren } from "../protocols/get-children";
 
 export class GetChildrenService implements GetChildren {
-  constructor(private readonly api: ApiConnection) {}
+  constructor(private readonly fetchApi: GetChildrenFetchHttp) {}
 
-  async get(): Promise<void> {
-    const data = await this.api.get();
-    const children = await data.json();
-
-    console.log('GetChildrenService', children);
-    return children;
+  async get(): Promise<Child.Created[]> {
+    const data = await this.fetchApi.get();
+    return data;
   }
 }
