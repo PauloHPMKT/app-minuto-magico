@@ -1,5 +1,5 @@
-import type { ChildToCreateDTO, CreateChildFetchHttp } from "../../data/protocols/create-child-fetch-http";
-import type { GetChildrenFetchHttp } from "../../data/protocols/get-children-fetch-http";
+import type { ChildToCreateDTO, CreateChildFetchHttp } from "../protocols/create-child-fetch-http";
+import type { GetChildrenFetchHttp } from "../protocols/get-children-fetch-http";
 
 export class ApiConnection implements GetChildrenFetchHttp, CreateChildFetchHttp {
   constructor(private readonly url: string) {}

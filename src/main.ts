@@ -3,9 +3,9 @@ import './assets/styles/index.css'
 import App from './App.vue'
 
 import { router } from './router'
-import { AddChildService } from './services/trampoline/add-child/add-child.service'
-import { ApiConnection } from './services/infra/http/api'
-import { GetChildrenService } from './services/trampoline/get-children/get-children.service'
+import { AddChildService } from './services/trampoline/data/usecases/add-child/add-child.service'
+import { ApiConnection } from './services/trampoline/infra/http/api'
+import { GetChildrenService } from './services/trampoline/data/usecases/get-children/get-children.service'
 
 const app = createApp(App)
 

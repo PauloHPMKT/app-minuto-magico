@@ -3,8 +3,8 @@ import { inject, onMounted, reactive, ref, watch } from "vue";
 import { Icon } from "@iconify/vue";
 import Overlay from '../components/Overlay/index.vue';
 import MainButton from '../components/MainButton/index.vue';
-import { AddChildService } from "../services/trampoline/add-child/add-child.service";
-import { GetChildrenService } from "../services/trampoline/get-children/get-children.service";
+import { AddChildService } from "../services/trampoline/data/usecases/add-child/add-child.service";
+import { GetChildrenService } from "../services/trampoline/data/usecases/get-children/get-children.service";
 import type { Child } from "../types/child";
 
 const addChildService = inject<AddChildService>('addChildService');
