@@ -5,21 +5,21 @@ import Overlay from '../components/Overlay/index.vue';
 import MainButton from '../components/MainButton/index.vue';
 import { AddChildService } from "../services/trampoline/add-child/add-child.service";
 import { GetChildrenService } from "../services/trampoline/get-children/get-children.service";
+import type { Child } from "../types/child";
 
 const addChildService = inject<AddChildService>('addChildService');
 const getChildrenService = inject<GetChildrenService>('getChildrenService');
 
-const child = reactive({
+const child = reactive<Child.ToCreate>({
   name: '',
-  minutes: '',
+  totalMinutes: '',
 });
-const children = ref<any[]>([]);
-const minutes = ref<string>('');
-const timer = ref<string>('');
+const children = ref<Child.Created[]>([]);
 const timerIntervals = ref<Record<string, number>>({});
-const errorMessageForm = ref<string>('');
+const errorMessageModal = ref('');
+const errorMessageForm = ref('');
+const minutes = ref('');
 const isErrorMessageForm = ref(false);
-const errorMessageModal = ref<string>('');
 const isErrorMessageModal = ref(false);
 const isModalActive = ref(false);
 
@@ -49,8 +49,8 @@ function counter(childId: string, time: number) {
   }, 1000);
 }
 
-async function teste() {
-  const requiredFields: (keyof typeof child)[] = ['name', 'minutes'];
+async function addChild() {
+  const requiredFields: (keyof typeof child)[] = ['name', 'totalMinutes'];
   for (const field of requiredFields) {
     if (!child[field as keyof typeof child]) {
       errorMessageForm.value = 'Preencha os campos corretamente';
@@ -59,7 +59,7 @@ async function teste() {
     }
   }
 
-  if (parseInt(child.minutes) < 10) {
+  if (parseInt(child.totalMinutes) < 10) {
     errorMessageForm.value = 'A quantidade mínima de minutos é 10 minutos';
     isErrorMessageForm.value = true;
     return;
@@ -68,16 +68,17 @@ async function teste() {
   try {
     const res = await addChildService?.add({
       name: child.name,
-      totalMinutes: parseInt(child.minutes),
+      totalMinutes: parseInt(child.totalMinutes),
     });
 
     if (res) {
-      const newChild = { ...(
-        res as { id: string, name: string, totalMinutes: number }
-      ), timer: `${child.minutes}:00` };
+      const newChild = {
+        ...(res as Child.Created),
+        timer: `${child.totalMinutes}:00`
+      };
       children.value.push(newChild);
 
-      counter(newChild.id, parseInt(child.minutes));
+      counter(newChild.id, parseInt(child.totalMinutes));
     }
     await getChildren();
   } catch (error) {
@@ -90,7 +91,7 @@ async function getChildren() {
     const res = await getChildrenService?.get();
     if (Array.isArray(res)) {
       const existingTimers = children.value.reduce((acc, child) => {
-        acc[child.id] = child.timer;
+        acc[child.id] = child.timer || `${child.totalMinutes}:00`;
         return acc;
       }, {} as Record<string, string>);
 
@@ -104,13 +105,14 @@ async function getChildren() {
   }
 }
 
-function increaseMinutes() {
+async function increaseMinutes() {
   if (!minutes.value || parseInt(minutes.value) < 10) {
     errorMessageModal.value = 'A quantidade mínima de minutos é 10 minutos';
     isErrorMessageModal.value = true;
     return;
   }
-  alert('aumentar minutos' + minutes.value);
+  // tem que criar uma logica que capture o id do individuo adicionado para validar o incremento de tempo
+  await addChild();
   cleanErrorStatusModal();
 }
 
@@ -151,7 +153,7 @@ onMounted(async () => {
           />
           <input
             type="text"
-            v-model="child.minutes"
+            v-model="child.totalMinutes"
             class="w-[30%] p-2 border border-gray-300 rounded-md"
             placeholder="Minutos (10)"
           />
@@ -159,7 +161,7 @@ onMounted(async () => {
         <span v-if="isErrorMessageForm" class="text-red-500">{{ errorMessageForm }}</span>
         <div class="w-full mb-4">
           <MainButton
-            @click="teste"
+            @click="addChild"
             class="bg-blue-500 text-white"
           >
             Começar a brincadeira
