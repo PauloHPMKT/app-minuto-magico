@@ -8,18 +8,18 @@ import { GetChildrenService } from "../services/trampoline/data/usecases/get-chi
 import type { Child } from "../types/child";
 
 import { useValidation } from "../composables/useValidation";
+import { useTimerStore } from "../store/timer";
 
 const addChildService = inject<AddChildService>('addChildService');
 const getChildrenService = inject<GetChildrenService>('getChildrenService');
 
 const { formValidation } = useValidation();
+const timerStore = useTimerStore();
 
 const child = reactive<Child.ToCreate>({
   name: '',
   totalMinutes: '',
 });
-const children = ref<Child.Created[]>([]);
-const timerIntervals = ref<Record<string, number>>({});
 const errorMessageModal = ref('');
 const errorMessageForm = ref('');
 const minutes = ref('');
@@ -35,23 +35,6 @@ watch([child, minutes], ([newChild, newMinutes]) => {
     cleanErrorStatusModal();
   }
 });
-
-function counter(childId: string, time: number) {
-  let totalSeconds = time * 60;
-
-  timerIntervals.value[childId] = setInterval(() => {
-    if (totalSeconds-- <= 0) {
-      clearInterval(timerIntervals.value[childId]);
-      return;
-    }
-
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-
-    children.value.find(child => child.id === childId)!.timer =
-      `${minutes}:${seconds.toString().padStart(2, '0')}`;
-  }, 1000);
-}
 
 async function addChild() {
   const isEmpty = formValidation(child);
@@ -72,9 +55,7 @@ async function addChild() {
         ...(res as Child.Created),
         timer: `${child.totalMinutes}:00`
       };
-      children.value.push(newChild);
-
-      counter(newChild.id, parseInt(child.totalMinutes));
+      timerStore.addChild(newChild)
     }
     await getChildren();
     cleanChild();
@@ -87,15 +68,17 @@ async function getChildren() {
   try {
     const res = await getChildrenService?.get();
     if (Array.isArray(res)) {
-      const existingTimers = children.value.reduce((acc, child) => {
+      const existingTimers = timerStore.children.reduce((acc, child) => {
         acc[child.id] = child.timer || `${child.totalMinutes}:00`;
         return acc;
       }, {} as Record<string, string>);
 
-      children.value = res.map((child) => ({
+      const newChildren = res.map((child) => ({
         ...child,
         timer: existingTimers[child.id] || `${child.totalMinutes}:00`,
       })).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+
+      timerStore.setChildren(newChildren);
     }
   } catch (error) {
     console.error(error);
@@ -226,7 +209,7 @@ onMounted(async () => {
         </Overlay>
 
         <ul class="overflow-y-auto h-[93%]">
-          <li v-for="child in children" :key="child.id">
+          <li v-for="child in timerStore.children" :key="child.id">
             <div class="flex items-center border-b-[1px] py-2 px-6">
               <div class="flex items-center gap-2 w-[70%]">
                 <div>
