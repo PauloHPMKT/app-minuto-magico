@@ -3,6 +3,7 @@ import { inject, onMounted, reactive, ref, watch } from "vue";
 import { Icon } from "@iconify/vue";
 import Overlay from '../components/Overlay/index.vue';
 import MainButton from '../components/MainButton/index.vue';
+import IncreaseMinutes from "../components/IncreaseMinutes/index.vue"
 import { AddChildService } from "../services/trampoline/data/usecases/add-child/add-child.service";
 import { GetChildrenService } from "../services/trampoline/data/usecases/get-children/get-children.service";
 import type { Child } from "../types/child";
@@ -23,17 +24,13 @@ const child = reactive<Child.ToCreate>({
 const selectedChildId = ref<string | null>(null);
 const errorMessageModal = ref('');
 const errorMessageForm = ref('');
-const minutes = ref('');
 const isErrorMessageForm = ref(false);
 const isErrorMessageModal = ref(false);
 const isModalActive = ref(false);
 
-watch([child, minutes], ([newChild, newMinutes]) => {
+watch(child, (newChild) => {
   if (newChild) {
     cleanErrorStatusForm();
-  }
-  if (newMinutes) {
-    cleanErrorStatusModal();
   }
 });
 
@@ -86,15 +83,8 @@ async function getChildren() {
   }
 }
 
-async function increaseMinutes() {
-  if (!minutes.value || parseInt(minutes.value) < 10) {
-    errorMessageModal.value = 'A quantidade mínima de minutos é 10 minutos';
-    isErrorMessageModal.value = true;
-    return;
-  }
-  // tem que criar uma logica que capture o id do individuo adicionado para validar o incremento de tempo
-  await addChild();
-  cleanErrorStatusModal();
+function finishPlayground(id: string) {
+  console.log('finish playground', id);
 }
 
 function cleanErrorStatusForm() {
@@ -114,8 +104,6 @@ function cleanChild() {
 
 function toggleModalActions(id?: string) {
   selectedChildId.value = id || null;
-  // const currentChild = timerStore.children.find((child) => child.id === id);
-  // console.log(child.name = currentChild?.name || '');
   isModalActive.value = !isModalActive.value;
   cleanErrorStatusModal();
 }
@@ -126,13 +114,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div
-    class="max-w-md mx-auto mt-7 bg-white rounded-xl shadow-md md:max-w-2xl h-[85vh]"
-  >
+  <div class="max-w-md mx-auto mt-7 bg-white rounded-xl shadow-md md:max-w-2xl h-[85vh]">
     <div class="h-full">
-      <div
-        class="bg-gray-200 py-6 px-4 overflow-hidden rounded-tl-xl rounded-tr-xl"
-      >
+      <div class="bg-gray-200 py-6 px-4 overflow-hidden rounded-tl-xl rounded-tr-xl">
         <div class="flex gap-2" :class="isErrorMessageForm ? 'mb-0' : 'mb-2'">
           <input
             type="text"
@@ -181,36 +165,10 @@ onMounted(async () => {
         <ul class="overflow-y-auto h-[93%]">
           <li v-for="child in timerStore.children" :key="child.id" class="relative">
             <Overlay v-if="isModalActive">
-              <div
-                class="bg-white pt-4 pb-6 px-4 shadow-md rounded-lg min-w-[400px]"
-              >
-                <Icon
-                  icon="ic:round-close"
-                  width="24"
-                  height="24"
-                  @click="toggleModalActions"
-                  class="float-right cursor-pointer"
-                />
-                <div class="my-4">
-                  <div class="mb-6">
-                    <p class="text-gray-500">adicione mais tempo à brincadeira de </p>
-                    <h2 class="text-lg font-semibold">{{ timerStore.children.find(child => child.id === selectedChildId)?.name }}</h2>
-                    <small class="text-gray-500">Total acumulado: {{ timerStore.children.find(child => child.id === selectedChildId)?.totalMinutes }} minutos</small>
-                  </div>
-                  <div class="flex gap-2 mt-2">
-                    <input
-                      type="text"
-                      v-model="minutes"
-                      class="w-[70%] p-2 border border-gray-300 rounded-md"
-                      placeholder="Minutos (10)"
-                    />
-                    <MainButton class="bg-blue-500 text-white" @click="increaseMinutes">
-                      Adicionar
-                    </MainButton>
-                  </div>
-                  <span v-if="isErrorMessageModal" class="text-red-500">{{ errorMessageModal }}</span>
-                </div>
-              </div>
+              <IncreaseMinutes
+                :selectedId="selectedChildId"
+                @toggleModal="toggleModalActions"
+              />
             </Overlay>
             <div class="flex items-center border-b-[1px] py-2 px-6">
               <div class="flex items-center gap-2 w-[70%]">
@@ -222,6 +180,13 @@ onMounted(async () => {
                       icon="tabler:stopwatch"
                       width="18"
                       height="18"
+                      :class="child.timer !== '0:00' ? 'text-blue-400' : 'text-green-600'"
+                    />
+                    <Icon
+                      icon="heroicons:speaker-wave-16-solid"
+                      width="18"
+                      height="18"
+                      class="ml-1"
                       :class="child.timer !== '0:00' ? 'text-blue-400' : 'text-green-600'"
                     />
                   </div>
@@ -237,7 +202,10 @@ onMounted(async () => {
                     +
                   </div>
                 </MainButton>
-                <MainButton class="bg-blue-950 w-fit text-white">
+                <MainButton
+                  @click="finishPlayground(child.id)"
+                  class="bg-blue-950 w-fit text-white"
+                >
                   Encerrar
                 </MainButton>
               </div>
