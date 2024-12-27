@@ -20,6 +20,7 @@ const child = reactive<Child.ToCreate>({
   name: '',
   totalMinutes: '',
 });
+const selectedChildId = ref<string | null>(null);
 const errorMessageModal = ref('');
 const errorMessageForm = ref('');
 const minutes = ref('');
@@ -111,7 +112,10 @@ function cleanChild() {
   child.totalMinutes = '';
 }
 
-function toggleModalActions() {
+function toggleModalActions(id?: string) {
+  selectedChildId.value = id || null;
+  // const currentChild = timerStore.children.find((child) => child.id === id);
+  // console.log(child.name = currentChild?.name || '');
   isModalActive.value = !isModalActive.value;
   cleanErrorStatusModal();
 }
@@ -173,43 +177,41 @@ onMounted(async () => {
         </div>
       </div>
       <div>aqui ficarão algumas ações</div>
-      <div class="py-6 overflow-hidden h-[70%] relative">
-
-        <Overlay v-if="isModalActive">
-          <div
-            class="fixed bg-white pt-4 pb-6 px-4 shadow-md rounded-lg top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-[400px]"
-          >
-            <Icon
-              icon="ic:round-close"
-              width="24"
-              height="24"
-              @click="toggleModalActions"
-              class="float-right cursor-pointer"
-            />
-            <div class="my-4">
-              <div class="mb-6">
-                <p class="text-gray-500">adicione mais tempo à brincadeira de </p>
-                <h2 class="text-lg font-semibold">Nome da criança selecionada</h2>
-                <small class="text-gray-500">Total acumulado: 20 minutos</small>
-              </div>
-              <div class="flex gap-2 mt-2">
-                <input
-                  type="text"
-                  v-model="minutes"
-                  class="w-[70%] p-2 border border-gray-300 rounded-md"
-                  placeholder="Minutos (10)"
-                />
-                <MainButton class="bg-blue-500 text-white" @click="increaseMinutes">
-                  Adicionar
-                </MainButton>
-              </div>
-              <span v-if="isErrorMessageModal" class="text-red-500">{{ errorMessageModal }}</span>
-            </div>
-          </div>
-        </Overlay>
-
+      <div class="py-6 overflow-hidden h-[70%]">
         <ul class="overflow-y-auto h-[93%]">
-          <li v-for="child in timerStore.children" :key="child.id">
+          <li v-for="child in timerStore.children" :key="child.id" class="relative">
+            <Overlay v-if="isModalActive">
+              <div
+                class="bg-white pt-4 pb-6 px-4 shadow-md rounded-lg min-w-[400px]"
+              >
+                <Icon
+                  icon="ic:round-close"
+                  width="24"
+                  height="24"
+                  @click="toggleModalActions"
+                  class="float-right cursor-pointer"
+                />
+                <div class="my-4">
+                  <div class="mb-6">
+                    <p class="text-gray-500">adicione mais tempo à brincadeira de </p>
+                    <h2 class="text-lg font-semibold">{{ timerStore.children.find(child => child.id === selectedChildId)?.name }}</h2>
+                    <small class="text-gray-500">Total acumulado: {{ timerStore.children.find(child => child.id === selectedChildId)?.totalMinutes }} minutos</small>
+                  </div>
+                  <div class="flex gap-2 mt-2">
+                    <input
+                      type="text"
+                      v-model="minutes"
+                      class="w-[70%] p-2 border border-gray-300 rounded-md"
+                      placeholder="Minutos (10)"
+                    />
+                    <MainButton class="bg-blue-500 text-white" @click="increaseMinutes">
+                      Adicionar
+                    </MainButton>
+                  </div>
+                  <span v-if="isErrorMessageModal" class="text-red-500">{{ errorMessageModal }}</span>
+                </div>
+              </div>
+            </Overlay>
             <div class="flex items-center border-b-[1px] py-2 px-6">
               <div class="flex items-center gap-2 w-[70%]">
                 <div>
@@ -229,7 +231,7 @@ onMounted(async () => {
                 <div v-if="child.timer !== '0:00'" class="flex items-center">
                   <span class="text-[20px] font-semibold">{{ child.timer }}</span>
                 </div>
-                <MainButton v-else @click="toggleModalActions" class="w-fit bg-blue-500 text-white">
+                <MainButton v-else @click="toggleModalActions(child.id)" class="w-fit bg-blue-500 text-white">
                   <div class="flex items-center">
                     <Icon icon="tabler:stopwatch" width="24" height="24" />
                     +
