@@ -7,8 +7,12 @@ import { AddChildService } from "../services/trampoline/data/usecases/add-child/
 import { GetChildrenService } from "../services/trampoline/data/usecases/get-children/get-children.service";
 import type { Child } from "../types/child";
 
+import { useValidation } from "../composables/useValidation";
+
 const addChildService = inject<AddChildService>('addChildService');
 const getChildrenService = inject<GetChildrenService>('getChildrenService');
+
+const { formValidation } = useValidation();
 
 const child = reactive<Child.ToCreate>({
   name: '',
@@ -50,17 +54,9 @@ function counter(childId: string, time: number) {
 }
 
 async function addChild() {
-  const requiredFields: (keyof typeof child)[] = ['name', 'totalMinutes'];
-  for (const field of requiredFields) {
-    if (!child[field as keyof typeof child]) {
-      errorMessageForm.value = 'Preencha os campos corretamente';
-      isErrorMessageForm.value = true;
-      return;
-    }
-  }
-
-  if (parseInt(child.totalMinutes) < 10) {
-    errorMessageForm.value = 'A quantidade mínima de minutos é 10 minutos';
+  const isEmpty = formValidation(child);
+  if (isEmpty) {
+    errorMessageForm.value = isEmpty as string;
     isErrorMessageForm.value = true;
     return;
   }
@@ -81,6 +77,7 @@ async function addChild() {
       counter(newChild.id, parseInt(child.totalMinutes));
     }
     await getChildren();
+    cleanChild();
   } catch (error) {
     console.error(error);
   }
@@ -98,7 +95,7 @@ async function getChildren() {
       children.value = res.map((child) => ({
         ...child,
         timer: existingTimers[child.id] || `${child.totalMinutes}:00`,
-      }));
+      })).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
     }
   } catch (error) {
     console.error(error);
@@ -124,6 +121,11 @@ function cleanErrorStatusForm() {
 function cleanErrorStatusModal() {
   isErrorMessageModal.value = false;
   errorMessageModal.value = '';
+}
+
+function cleanChild() {
+  child.name = '';
+  child.totalMinutes = '';
 }
 
 function toggleModalActions() {
