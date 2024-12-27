@@ -15,7 +15,7 @@
   width: 100%;
   height: 100%;
   z-index: 300;
-  background-color: rgba(18, 18, 18, 0.6);
+  background-color: rgba(18, 18, 18, 0.366);
   display: flex;
   justify-content: center;
   align-items: center;
